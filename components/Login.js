@@ -27,7 +27,7 @@ export default function LoginScreen({ onLoginSuccess, navigation }) {
       return;
     }
 
-    fetch("https://troubled-red-garb.cyclic.app/login", {
+    fetch("https://tiny-worm-nightgown.cyclic.app/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -37,7 +37,7 @@ export default function LoginScreen({ onLoginSuccess, navigation }) {
       .then((response) => response.json())
       .then((data) => {
         if (data.message === "Authentication successful") {
-          fetch("https://troubled-red-garb.cyclic.app/professeurs")
+          fetch("https://tiny-worm-nightgown.cyclic.app/professeurs")
             .then((response) => response.json())
             .then((professeursData) => {
               const professor = professeursData.find(

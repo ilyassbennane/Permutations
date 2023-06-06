@@ -31,12 +31,10 @@ export default function App() {
   const handleDelete = async () => {
     try {
       // Send a DELETE request to delete the professor from the server
-      await fetch(`https://troubled-red-garb.cyclic.app/professeurs/${userEmail}`, {
+      await fetch(`https://tiny-worm-nightgown.cyclic.app/professeurs/${userEmail}`, {
         method: 'DELETE',
       });
 
-      // The professor has been successfully deleted
-      // Do something with the server response, such as displaying a success message or redirecting the user
       console.log({ userEmail });
       setIsLoggedIn(false);
     } catch (error) {
