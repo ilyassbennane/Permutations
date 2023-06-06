@@ -19,11 +19,13 @@
     "axios": "^1.4.0",
     "expo": "~47.0.12",
     "expo-status-bar": "~1.4.2",
+    "expo-updates": "~0.15.6",
     "link": "^1.5.1",
     "react": "18.1.0",
     "react-native": "^0.70.5",
     "react-native-chart-kit": "^6.12.0",
     "react-native-element-dropdown": "^2.9.0",
+    "react-native-elements": "^3.4.3",
     "react-native-gesture-handler": "~2.8.0",
     "react-native-modal": "^13.0.1",
     "react-native-reanimated": "~2.12.0",
@@ -35,8 +37,7 @@
     "react-native-table-component": "^1.2.2",
     "react-native-vector-icons": "^9.2.0",
     "victory-core": "^36.6.10",
-    "victory-native": "^36.6.10",
-    "expo-updates": "~0.15.6"
+    "victory-native": "^36.6.10"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

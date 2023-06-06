@@ -6,15 +6,27 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
-  Modal,
 } from "react-native";
+
+import LogoImage from "../assets/login.png";
 
 export default function LoginScreen({ onLoginSuccess, navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showModal, setShowModal] = useState(false);
+  const [loginError, setLoginError] = useState("");
 
   const handleLogin = () => {
+    setLoginError("");
+
+    if (email.trim() === "") {
+      setLoginError("Email is required");
+      return;
+    }
+    if (password === "") {
+      setLoginError("Password is required");
+      return;
+    }
+
     fetch("https://troubled-red-garb.cyclic.app/login", {
       method: "POST",
       headers: {
@@ -32,23 +44,25 @@ export default function LoginScreen({ onLoginSuccess, navigation }) {
                 (prof) => prof.email === email
               );
               if (professor) {
-                onLoginSuccess(email); // Pass the email as an argument
+                onLoginSuccess(email);
               }
             })
             .catch((error) => {
               console.error("Error retrieving professors data:", error);
             });
         } else {
-          setShowModal(true);
+          setLoginError("Email or password is incorrect");
         }
       })
       .catch((error) => {
         console.error("Error during login:", error);
-      });
-  };
+      });  };
 
   return (
     <View style={styles.container}>
+      <View style={styles.logoContainer}>
+        <Image source={LogoImage} style={styles.logoImage} />
+      </View>
 
       <TextInput
         placeholder="User Email"
@@ -64,6 +78,9 @@ export default function LoginScreen({ onLoginSuccess, navigation }) {
         secureTextEntry
         style={styles.input}
       />
+      {loginError !== "" && (
+        <Text style={styles.errorText}>{loginError}</Text>
+      )}
 
       <TouchableOpacity onPress={handleLogin} style={styles.button}>
         <Text style={styles.buttonText}>Log In</Text>
@@ -73,27 +90,10 @@ export default function LoginScreen({ onLoginSuccess, navigation }) {
         onPress={() => navigation.navigate("Registration")}
         style={styles.button}
       >
-        <Text style={styles.buttonText}>Register</Text>
+        <Text style={styles.buttonText}>
+          <Text>{" "}Sign up</Text>
+        </Text>
       </TouchableOpacity>
-
-      <Modal
-        visible={showModal}
-        animationType="fade"
-        transparent={true}
-        onRequestClose={() => setShowModal(false)}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalText}>Invalid Information</Text>
-            <TouchableOpacity
-              onPress={() => setShowModal(false)}
-              style={styles.modalButton}
-            >
-              <Text style={styles.modalButtonText}>OK</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
     </View>
   );
 }
@@ -106,19 +106,31 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingHorizontal: 40,
   },
-
+  logoContainer: {
+    marginBottom: 20,
+  },
+  logoImage: {
+    width: 150,
+    height: 150,
+    resizeMode: "contain",
+  },
   input: {
     borderWidth: 1,
-    borderColor: "#446688",
+    borderColor: "#446688", 
     borderRadius: 25,
     paddingVertical: 12,
     paddingHorizontal: 20,
     marginVertical: 10,
     width: "100%",
     fontSize: 16,
+    backgroundColor: "#f0f0f0", 
+  },
+  errorText: {
+    color: "red",
+    marginBottom: 10,
   },
   button: {
-    backgroundColor: "black",
+    backgroundColor: "#446688", 
     borderRadius: 25,
     paddingVertical: 12,
     paddingHorizontal: 20,
@@ -126,36 +138,6 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   buttonText: {
-    color: "#ffffff",
-    fontSize: 16,
-    textAlign: "center",
-  },
-  modalContainer: {
-    flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  modalContent: {
-    backgroundColor: "#ffffff",
-    borderRadius: 10,
-    padding: 20,
-    alignItems: "center",
-    width: "80%",
-  },
-  modalText: {
-    fontSize: 18,
-    marginBottom: 20,
-    textAlign: "center",
-  },
-  modalButton: {
-    backgroundColor: "black",
-    borderRadius: 25,
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    width: "50%",
-  },
-  modalButtonText: {
     color: "#ffffff",
     fontSize: 16,
     textAlign: "center",
